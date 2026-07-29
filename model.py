@@ -48,6 +48,14 @@ __global__ void elementwise_exp(float* a, int n) {
 __global__ void row_max(const float* matrix, float* out, int rows, int cols) {
     // TODO: compute the max of each row and write it to out[r].
 
+    /*
+        Here, the matrix, out, rows, cols remain same throughout the functions, 
+        Each thread is created per row (in the matrix)
+            => In GPU programming, there's no outer loop; Instead CUDA creates many threads and each thread computes it's own rows. 
+            => Loop Iteration == GPU Thread
+        Each col is visited per thread. 
+    */
+
     // Assign a row per thread
     int row = blockIdx.x * blockDim.x + threadIdx.x ; 
     // Ignore threads beyond number of rows
