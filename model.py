@@ -95,8 +95,20 @@ __device__ float dot_product(const float* a, const float* b, int n) {
     return dot; 
 }
 
-# Step 7 - matmul (not yet solved)
-# TODO: implement
+# Step 7 - matmul
+__global__ void matmul(const float* a, const float* b, float* c, int m, int k, int n) {
+    // TODO: compute C = A * B for row-major matrices
+    // We're gonna use 2D indexing: 
+    int row = blockIdx.y * blockDim.y + threadIdx.x ; 
+    int col = blockIdx.x * blockDim.y + threadIdx.y ; 
+    // This function runs for a whole cell ; Dotproduct of each row,col.
+    if(row >= m || col >= n) return ; 
+    float sum = 0; 
+    for(int i = 0; i < k ; i++){
+        sum += a[row*k + i] * b[i*n + col]; 
+    }
+    c[row*n + col] = sum; 
+}
 
 # Step 8 - transpose (not yet solved)
 # TODO: implement
