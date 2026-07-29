@@ -27,8 +27,13 @@ __global__ void vector_add(
     }
 }
 
-# Step 2 - scale_array (not yet solved)
-# TODO: implement
+# Step 2 - scale_array
+__global__ void scale_array(float* a, float scalar, int n) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x; 
+    if(idx < n){
+        a[idx] = a[idx]*scalar; 
+    }
+}
 
 # Step 3 - elementwise_exp (not yet solved)
 # TODO: implement
