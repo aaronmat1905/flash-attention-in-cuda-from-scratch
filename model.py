@@ -44,8 +44,25 @@ __global__ void elementwise_exp(float* a, int n) {
     }
 }
 
-# Step 4 - row_max (not yet solved)
-# TODO: implement
+# Step 4 - row_max
+__global__ void row_max(const float* matrix, float* out, int rows, int cols) {
+    // TODO: compute the max of each row and write it to out[r].
+
+    // Assign a row per thread
+    int row = blockIdx.x * blockDim.x + threadIdx.x ; 
+    // Ignore threads beyond number of rows
+    if(row>=rows) return; 
+    // Locate the beginning of the row:
+    int start = row * cols; 
+    // initialize the maximum 
+    float max_val = matrix[start]; 
+    // Scan across the row: 
+    for (int col = 1; col < cols; col++){
+        if (matrix[start+col] > max_val)
+            max_val = matrix[start+col]; 
+    }
+    out[row] = max_val; 
+}
 
 # Step 5 - row_sum (not yet solved)
 # TODO: implement
